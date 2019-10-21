@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -16,10 +17,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText installments;
     Button btnCalc;
     TextView txtResult;
-
-
-
-
 
 
     @Override
@@ -35,20 +32,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnCalc.setOnClickListener(this);
     }
 
+
+    public boolean validation(){
+        if(principle.getText().toString().trim().isEmpty() || interest.getText().toString().trim().isEmpty()
+        || installments.getText().toString().trim().isEmpty()){
+            return  true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     @Override
     public void onClick(View v) {
 
+        if(!validation()) {
         float emi;
         float prin = Float.parseFloat(principle.getText().toString());
         float inter = Float.parseFloat(interest.getText().toString());
         float install = Float.parseFloat(installments.getText().toString());
 
-        emi= res(prin,inter,install);
 
-        txtResult.setText(String.format("EMI =%.2f", emi));
+            emi = res(prin, inter, install);
+
+            txtResult.setText(String.format("EMI =%.2f", emi));
 
 
+        }
 
+        else {
+            Toast.makeText(this, "Please fill the details", Toast.LENGTH_LONG).show();
+        }
     }
 
     static float res (float princ, float rate, float time){
